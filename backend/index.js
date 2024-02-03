@@ -2,13 +2,22 @@ import exppress from "express";
 import { PORT } from "./config.js";
 import { MangoDBURL } from "./test.js";
 import mongoose from "mongoose";
-import { Book } from "./models/bookModel.js";
 import booksRoute from "./routes/bookRoute.js";
+import cors from "cors";
 
 const app = exppress();
 
 // middleware for parsing request body
 app.use(exppress.json());
+
+// middleware for handeling CORS Policy
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
 app.get("/", (request, response) => {
   console.log(request);
