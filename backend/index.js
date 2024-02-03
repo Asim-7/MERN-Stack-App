@@ -57,6 +57,18 @@ app.get("/books", async (request, response) => {
   }
 });
 
+// Route for getting one book from database based on id
+app.get("/books/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const book = await Book.findById(id);
+    return response.status(200).json(book);
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
 app.get("/favicon.ico", (request, response) => {
   console.log(request);
   return response.status(204);
