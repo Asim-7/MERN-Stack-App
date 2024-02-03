@@ -99,6 +99,23 @@ app.put("/books/:id", async (request, response) => {
   }
 });
 
+// Route for deleting book
+app.delete("/books/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await Book.findByIdAndDelete(id);
+    if (!result) {
+      return response.status(400).json({
+        message: "Book not found",
+      });
+    }
+    return response.status(200).send({ message: "Book deleted successfully" });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
 app.get("/favicon.ico", (request, response) => {
   console.log(request);
   return response.status(204);
